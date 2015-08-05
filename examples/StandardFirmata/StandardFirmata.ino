@@ -20,7 +20,7 @@
 
   See file LICENSE.txt for further informations on licensing terms.
 
-  Last updated by Jeff Hoefs: June 21, 2015
+  Last updated by Jeff Hoefs: August 4, 2015
 */
 
 #include <Servo.h>
@@ -214,10 +214,12 @@ void checkSerial()
       if (serialPort == NULL) {
         continue;
       }
+#if defined(ARDUINO_ARCH_AVR)
       // only the SoftwareSerial port that is "listening" can read data
       if (portId > 7 && !((SoftwareSerial*)serialPort)->isListening()) {
         continue;
       }
+#endif
       if (serialPort->available() > 0) {
         Firmata.write(START_SYSEX);
         Firmata.write(SERIAL_MESSAGE);
